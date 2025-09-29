@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -160,47 +161,139 @@ public class DatabaseManager {
      * Creates all necessary tables if they don't exist.
      */
     private void initializeSchema() throws SQLException {
-        logger.info("Loading database schema...");
+        logger.info("Creating tables, views, and triggers...");
 
-        try (InputStream schemaStream = plugin.getResource("database/schema.sql")) {
-            if (schemaStream == null) {
-                logger.warning("schema.sql not found in plugin resources. Skipping schema initialization.");
-                return;
-            }
+        try (Statement statement = connection.createStatement()) {
 
-            // Read schema file
-            String schemaSql = new BufferedReader(new InputStreamReader(schemaStream))
-                    .lines()
-                    .collect(Collectors.joining("\n"));
+            // PLAYER RESUME
+            statement.execute("CREATE TABLE IF NOT EXISTS player_resume (" +
+                    "player_uuid CHAR(36) PRIMARY KEY COMMENT 'Minecraft player UUID'," +
+                    "player_name VARCHAR(16) NOT NULL COMMENT 'Current Minecraft username (max 16 chars)'," +
+                    "timezone ENUM('NA_WEST','NA_EAST','EU_WEST','EU_CENTRAL','ASIA','OCEANIA') NOT NULL COMMENT 'Player timezone region'," +
+                    "discord_tag VARCHAR(32)," +
+                    "factions_experience TINYINT UNSIGNED CHECK (factions_experience BETWEEN 1 AND 10)," +
+                    "raiding_skill TINYINT UNSIGNED CHECK (raiding_skill BETWEEN 1 AND 10)," +
+                    "building_skill TINYINT UNSIGNED CHECK (building_skill BETWEEN 1 AND 10)," +
+                    "pvp_skill TINYINT UNSIGNED CHECK (pvp_skill BETWEEN 1 AND 10)," +
+                    "availability_hours TINYINT UNSIGNED CHECK (availability_hours BETWEEN 1 AND 10)," +
+                    "previous_factions JSON," +
+                    "is_looking BOOLEAN DEFAULT TRUE," +
+                    "is_active BOOLEAN DEFAULT TRUE," +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
+                    "CONSTRAINT chk_prev_factions CHECK (JSON_VALID(previous_factions) AND JSON_LENGTH(previous_factions) <= 10)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-            // Split by semicolon and execute each statement
-            //String[] statements = schemaSql.split("(?<=;)\\s*\\n"); // only split at semicolons followed by newline
-            String[] statements = schemaSql.split(";");
-            // for (String sql : statements) {
-            //     sql = sql.trim();
-            //     if (sql.isEmpty() || sql.startsWith("--") || sql.startsWith("/*")) {
-            //         continue;
-            //     }
-            //     try (Statement stmt = connection.createStatement()) {
-            //         logger.info("Executing: " + sql.substring(0, Math.min(80, sql.length())) + "...");
-            //         stmt.execute(sql);
-            //     }
-            // }
-            for (String sql : statements) {
-                sql = sql.trim();
-                if (sql.isEmpty() || sql.startsWith("--") || sql.startsWith("/*")) continue;
-                try (Statement stmt = connection.createStatement()) {
-                    logger.info("Executing: " + sql);
-                    stmt.execute(sql);
-                }
-            }
+            // FACTION RECRUITMENT
+            statement.execute("CREATE TABLE IF NOT EXISTS faction_recruitment (" +
+                    "faction_uuid CHAR(36) PRIMARY KEY," +
+                    "faction_name VARCHAR(32) NOT NULL," +
+                    "leader_uuid CHAR(36) NOT NULL," +
+                    "is_recruiting BOOLEAN DEFAULT FALSE," +
+                    "max_members INT UNSIGNED," +
+                    "current_members INT UNSIGNED DEFAULT 1," +
+                    "requirements JSON," +
+                    "banner_data JSON," +
+                    "description TEXT," +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
+                    "CONSTRAINT chk_req_valid CHECK (requirements IS NULL OR JSON_VALID(requirements))," +
+                    "CONSTRAINT chk_banner_valid CHECK (banner_data IS NULL OR JSON_VALID(banner_data))," +
+                    "CONSTRAINT chk_members CHECK (current_members <= max_members)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // APPLICATIONS
+            statement.execute("CREATE TABLE IF NOT EXISTS applications (" +
+                    "application_id CHAR(36) PRIMARY KEY," +
+                    "faction_uuid CHAR(36) NOT NULL," +
+                    "player_uuid CHAR(36) NOT NULL," +
+                    "status ENUM('PENDING','ACCEPTED','REJECTED','EXPIRED') DEFAULT 'PENDING'," +
+                    "message TEXT," +
+                    "submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "processed_at TIMESTAMP NULL," +
+                    "processed_by CHAR(36) NULL," +
+                    "expires_at TIMESTAMP," +
+                    "rejection_reason TEXT," +
+                    "CONSTRAINT fk_app_faction FOREIGN KEY (faction_uuid) REFERENCES faction_recruitment(faction_uuid) ON DELETE CASCADE," +
+                    "CONSTRAINT fk_app_player FOREIGN KEY (player_uuid) REFERENCES player_resume(player_uuid) ON DELETE CASCADE," +
+                    "CONSTRAINT fk_app_proc FOREIGN KEY (processed_by) REFERENCES player_resume(player_uuid) ON DELETE SET NULL," +
+                    // "CONSTRAINT chk_proc_logic CHECK ((status = 'PENDING' AND processed_at IS NULL AND processed_by IS NULL) OR (status != 'PENDING' AND processed_at IS NOT NULL))," + // <-- REMOVED THIS LINE
+                    "CONSTRAINT uk_app UNIQUE (player_uuid, faction_uuid, status)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+            
+            // TRIGGERS FOR 'applications' TABLE LOGIC
+            // This replaces the removed CHECK constraint 'chk_proc_logic'
+            statement.execute("DROP TRIGGER IF EXISTS trg_applications_insert_logic;");
+            statement.execute("CREATE TRIGGER trg_applications_insert_logic " +
+                    "BEFORE INSERT ON applications FOR EACH ROW " +
+                    "BEGIN " +
+                    "    IF NOT ((NEW.status = 'PENDING' AND NEW.processed_at IS NULL AND NEW.processed_by IS NULL) OR " +
+                    "            (NEW.status != 'PENDING' AND NEW.processed_at IS NOT NULL)) THEN " +
+                    "        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Check constraint violation on insert: chk_proc_logic failed'; " +
+                    "    END IF; " +
+                    "END;");
+
+            statement.execute("DROP TRIGGER IF EXISTS trg_applications_update_logic;");
+            statement.execute("CREATE TRIGGER trg_applications_update_logic " +
+                    "BEFORE UPDATE ON applications FOR EACH ROW " +
+                    "BEGIN " +
+                    "    IF NOT ((NEW.status = 'PENDING' AND NEW.processed_at IS NULL AND NEW.processed_by IS NULL) OR " +
+                    "            (NEW.status != 'PENDING' AND NEW.processed_at IS NOT NULL)) THEN " +
+                    "        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Check constraint violation on update: chk_proc_logic failed'; " +
+                    "    END IF; " +
+                    "END;");
+
+
+            // INVITATIONS
+            statement.execute("CREATE TABLE IF NOT EXISTS invitations (" +
+                    "invitation_id CHAR(36) PRIMARY KEY," +
+                    "faction_uuid CHAR(36) NOT NULL," +
+                    "player_uuid CHAR(36) NOT NULL," +
+                    "invited_by CHAR(36) NOT NULL," +
+                    "status ENUM('PENDING','ACCEPTED','REJECTED','EXPIRED') DEFAULT 'PENDING'," +
+                    "message TEXT," +
+                    "sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "processed_at TIMESTAMP NULL," +
+                    "expires_at TIMESTAMP," +
+                    "CONSTRAINT fk_inv_faction FOREIGN KEY (faction_uuid) REFERENCES faction_recruitment(faction_uuid) ON DELETE CASCADE," +
+                    "CONSTRAINT fk_inv_player FOREIGN KEY (player_uuid) REFERENCES player_resume(player_uuid) ON DELETE CASCADE," +
+                    "CONSTRAINT fk_inv_sender FOREIGN KEY (invited_by) REFERENCES player_resume(player_uuid) ON DELETE CASCADE," +
+                    "CONSTRAINT chk_inv_logic CHECK ((status = 'PENDING' AND processed_at IS NULL) OR (status != 'PENDING' AND processed_at IS NOT NULL))," +
+                    "CONSTRAINT uk_inv UNIQUE (faction_uuid, player_uuid, status)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // PLAYER SESSIONS
+            statement.execute("CREATE TABLE IF NOT EXISTS player_sessions (" +
+                    "session_id BIGINT AUTO_INCREMENT PRIMARY KEY," +
+                    "player_uuid CHAR(36) NOT NULL," +
+                    "login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "logout_time TIMESTAMP NULL," +
+                    "server_name VARCHAR(64)," +
+                    "last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
+                    "CONSTRAINT fk_sess_player FOREIGN KEY (player_uuid) REFERENCES player_resume(player_uuid) ON DELETE CASCADE," +
+                    "INDEX idx_sess_player (player_uuid, login_time)," +
+                    "INDEX idx_sess_active (logout_time, last_activity)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // VIEWS
+            statement.execute("CREATE OR REPLACE VIEW active_recruiting_factions AS " +
+                    "SELECT fr.faction_uuid, fr.faction_name, pr.player_name AS leader_name, fr.current_members, fr.max_members, fr.description, fr.updated_at " +
+                    "FROM faction_recruitment fr JOIN player_resume pr ON fr.leader_uuid = pr.player_uuid " +
+                    "WHERE fr.is_recruiting = TRUE AND pr.is_active = TRUE;");
+
+            statement.execute("CREATE OR REPLACE VIEW available_players AS " +
+                    "SELECT pr.player_uuid, pr.player_name, pr.timezone, pr.factions_experience, pr.raiding_skill, pr.building_skill, pr.pvp_skill, pr.availability_hours, pr.discord_tag, pr.updated_at " +
+                    "FROM player_resume pr WHERE pr.is_looking = TRUE AND pr.is_active = TRUE;");
+
+            statement.execute("CREATE OR REPLACE VIEW pending_applications_view AS " +
+                    "SELECT a.application_id, a.faction_uuid, fr.faction_name, a.player_uuid, pr.player_name, a.message, a.submitted_at, a.expires_at " +
+                    "FROM applications a JOIN faction_recruitment fr ON a.faction_uuid = fr.faction_uuid " +
+                    "JOIN player_resume pr ON a.player_uuid = pr.player_uuid WHERE a.status = 'PENDING';");
+
             logger.info("Database schema initialized successfully");
-
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to read schema.sql file", e);
-            throw new SQLException("Could not load database schema", e);
         }
     }
+
 
     /**
      * Gets a database connection.

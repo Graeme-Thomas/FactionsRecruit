@@ -1,0 +1,93 @@
+# FactionsRecruit Plugin Configuration
+# MySQL Database Configuration
+
+database:
+  # METHOD 1: Connection String (Preferred)
+  # Full JDBC connection string with all parameters
+  # Format: jdbc:mysql://[host]:[port]/[database]?params
+  # Recommended parameters: ?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  # Leave empty to use individual parameters below
+  connection-string: ""
+  # Example: "jdbc:mysql://localhost:3306/factions_recruitment?useSSL=false&allowPublicKeyRetrieval=true"
+  # For remote: "jdbc:mysql://host.example.com:3306/database?useSSL=true&serverTimezone=UTC"
+
+  # METHOD 2: Individual Parameters (Legacy/Fallback)
+  # Only used if connection-string is empty
+  host: "localhost"
+  port: 3306
+  database: "factions_recruitment"
+  username: "minecraft"
+  password: "change_this_password"
+
+# Application and Invitation Settings
+recruitment:
+  # Application expiration time in hours (168 hours = 7 days)
+  application-expiry-hours: 168
+  # Invitation expiration time in hours (168 hours = 7 days)
+  invitation-expiry-hours: 168
+  # Cleanup task interval in minutes (run every hour)
+  cleanup-interval-minutes: 60
+
+# Expiration Settings (for ConfigManager compatibility)
+expiration:
+  application-hours: 168
+  invitation-hours: 72
+
+# Cleanup Settings (for ConfigManager compatibility)
+cleanup:
+  interval-minutes: 60
+
+# GUI Settings
+gui:
+  # Number of items to display per page in list GUIs
+  items-per-page: 28
+  # Enable sound effects for GUI interactions
+  sounds-enabled: true
+  # Sound effects configuration
+  sounds:
+    click: "UI_BUTTON_CLICK"
+    open: "BLOCK_CHEST_OPEN"
+    close: "BLOCK_CHEST_CLOSE"
+    success: "ENTITY_PLAYER_LEVELUP"
+    error: "ENTITY_VILLAGER_NO"
+
+# Messages Configuration
+messages:
+  # General messages
+  no-permission: "You don't have permission to do that"
+  player-only: "This command can only be used by players"
+  command-usage: "Usage: /recruit [help|reload|stats]"
+
+  # Success messages
+  profile-created: "Your recruitment profile has been created"
+  profile-updated: "Your recruitment profile has been updated"
+  application-sent: "Your application has been sent"
+  invitation-sent: "Invitation has been sent"
+  application-accepted: "Application accepted"
+  application-rejected: "Application rejected"
+  invitation-accepted: "Invitation accepted"
+  invitation-rejected: "Invitation declined"
+
+  # Error messages
+  profile-not-found: "Player profile not found"
+  faction-not-found: "Faction not found"
+  application-failed: "Failed to send application"
+  invitation-failed: "Failed to send invitation"
+  already-applied: "You have already applied to this faction"
+  already-invited: "This player has already been invited"
+  not-faction-leader: "You must be a faction leader to do that"
+  faction-not-recruiting: "This faction is not currently recruiting"
+  player-not-looking: "This player is not currently looking for a faction"
+
+  # Info messages
+  no-applications: "You have no pending applications"
+  no-invitations: "You have no pending invitations"
+  no-factions-recruiting: "No factions are currently recruiting"
+  no-players-looking: "No players are currently looking for factions"
+
+# Plugin Settings
+plugin:
+  # Enable debug logging
+  debug: false
+  # Language file (future feature)
+  language: "en_US"

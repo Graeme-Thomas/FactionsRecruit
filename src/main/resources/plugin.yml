@@ -1,0 +1,78 @@
+name: FactionsRecruit
+version: ${project.version}
+main: com.gnut.factionsrecruit.FactionsRecruit
+api-version: '1.21'
+author: gnut
+description: Comprehensive recruitment system for factions with GUI-based interfaces
+website: https://github.com/gnut/FactionsRecruit
+
+# Soft dependencies (optional integrations)
+softdepend:
+  - Factions
+  - FactionsUUID
+  - PlaceholderAPI
+  - Kore
+
+# Commands
+commands:
+  recruit:
+    description: Open the faction recruitment interface
+    usage: |-
+      /recruit - Open recruitment GUI
+      /recruit help - Show help information
+      /recruit reload - Reload configuration (admin)
+      /recruit stats - View plugin statistics (admin)
+    aliases: [fr, recruitment]
+    permission: factionsrecruit.use
+    permission-message: You don't have permission to use this command
+
+# Permissions
+permissions:
+  # User permissions
+  factionsrecruit.use:
+    description: Allows use of the /recruit command and GUI
+    default: true
+
+  factionsrecruit.apply:
+    description: Allows players to apply to factions
+    default: true
+
+  factionsrecruit.invite:
+    description: Allows faction leaders to invite players
+    default: true
+
+  factionsrecruit.browse:
+    description: Allows browsing factions and players
+    default: true
+
+  # Admin permissions
+  factionsrecruit.admin:
+    description: Grants all admin permissions
+    default: op
+    children:
+      factionsrecruit.admin.reload: true
+      factionsrecruit.admin.stats: true
+      factionsrecruit.admin.manage: true
+
+  factionsrecruit.admin.reload:
+    description: Allows reloading the plugin configuration
+    default: op
+
+  factionsrecruit.admin.stats:
+    description: Allows viewing plugin statistics
+    default: op
+
+  factionsrecruit.admin.manage:
+    description: Allows managing applications and invitations
+    default: op
+
+  # Wildcard permission
+  factionsrecruit.*:
+    description: Grants all plugin permissions
+    default: op
+    children:
+      factionsrecruit.use: true
+      factionsrecruit.apply: true
+      factionsrecruit.invite: true
+      factionsrecruit.browse: true
+      factionsrecruit.admin: true

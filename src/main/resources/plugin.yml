@@ -1,0 +1,17 @@
+main: com.dirtygang.factionsrecruit.FactionsRecruit
+name: FactionsRecruit
+version: '${project.version}'
+api-version: 1.19
+commands:
+  recruit:
+    description: FactionsRecruit main command
+    usage: /<command>
+  recruitadmin:
+    description: FactionsRecruit admin commands
+    usage: /<command>
+    permission: factionsrecruit.admin
+    permission-message: You do not have permission to use this command.
+permissions:
+  factionsrecruit.admin:
+    description: Allows access to FactionsRecruit admin commands
+    default: op

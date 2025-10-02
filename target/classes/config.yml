@@ -1,0 +1,95 @@
+# FactionsRecruit Configuration
+
+faction-member-limit: 30
+application-slots-per-player: 3
+application-expiry-days: 3
+invitation-expiry-days: 3
+resume-display-days: 3
+application-cooldown-hours: 24
+resume-edit-cooldown-hours: 6
+
+notifications:
+  login-check: true
+  sounds:
+    success: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    error: "BLOCK_NOTE_BLOCK_BASS"
+    click: "BLOCK_NOTE_BLOCK_PLING"
+    navigation: "UI_BUTTON_CLICK"
+
+messages:
+  prefix: "&8[&6FactionsRecruit&8] &r"
+  player_not_found: "&cPlayer %player% not found or is offline."
+  recruitment_request_sent: "&aRecruitment request sent to %player%."
+  already_sent_request: "&cYou have already sent a recruitment request to %player%."
+  recruitment_request: "&e%player% has sent you a recruitment request for faction %faction%."
+  no_pending_request: "&cYou have no pending recruitment requests."
+  recruitment_request_expired_recruit: "&cThe recruitment request from %recruiter% has expired."
+  recruitment_request_expired_recruiter: "&cYour recruitment request to %recruit% has expired."
+  not_in_faction: "&cYou must be in a faction to recruit players."
+  target_already_in_faction: "&cThat player is already in a faction."
+  invitation_received: "&aYou have been invited to join &e{faction}&a by &e{inviter}&a! Type &b/recruit accept&a to join or &b/recruit deny&a to decline."
+  invitation_sent: "&aYou have sent a recruitment invitation to &e{target}&a."
+  no_pending_invitation: "&cYou have no pending recruitment invitations."
+  inviter_offline: "&cThe inviter is no longer online. Invitation cancelled."
+  invitation_accepted: "&aYou have successfully joined &e{faction}&a!"
+  target_accepted_invitation: "&e{target}&a has accepted your recruitment invitation!"
+  failed_to_join_faction: "&cFailed to join the faction. Please try again later."
+  target_failed_to_join_faction: "&e{target}&c failed to join your faction."
+  invitation_denied: "&cYou have denied the recruitment invitation."
+  target_denied_invitation: "&e{target}&c has denied the recruitment invitation."
+  invitation_expired: "&cThe recruitment invitation from &e{inviter}&c has expired."
+  invitation_expired_sender: "&cThe recruitment invitation to &e{target}&c has expired."
+  on_cooldown: "&cYou are on cooldown for &e{time_left}&c before sending another recruitment invitation."
+  recruit_command_usage: "&cUsage: /recruit <player> | /recruit accept | /recruit deny"
+  no_permission: "&cYou do not have permission to use this command."
+  application-sent: "&aApplication sent to %faction%!"
+  application-expired: "&cYour application to %faction% has expired"
+  application-cancelled: "&eApplication to %faction% cancelled"
+  resume-expired: "&cYour resume is no longer visible to faction owners"
+  slots-available: "&aYou have %slots% application slots available"
+  expired-applications: "§cYou have expired applications. Use /recruit to check status."
+  new-invitations: "§6You have pending faction invitations! Use /recruit to view them."
+  available-slots: "§aYou have %count% application slots available."
+  application-received: "§6%player% has applied to join your faction!"
+  application-accepted: "§aYour application to %faction% has been accepted!"
+  application-rejected: "§cYour application to %faction% has been rejected."
+  invitation-accepted: "§a%player% has accepted your faction invitation!"
+  invitation-rejected: "§c%player% has declined your faction invitation."
+
+confirmation-gui:
+  title: "&6Confirmation"
+  message:
+    name: "&eAre you sure?"
+    lore:
+      - "&7%message%"
+  confirm:
+    name: "&aConfirm"
+    lore:
+      - "&7Click to confirm"
+  cancel:
+    name: "&cCancel"
+    lore:
+      - "&7Click to cancel"
+  save-resume:
+    message: "Do you want to save your resume changes?"
+
+resume-editor-gui:
+  buttons:
+    save:
+      name: "&aSave & Continue"
+      lore:
+        - "&7Saves your resume."
+  messages:
+    resume-saved: "&aYour resume has been saved."
+
+# Debug and Testing Settings
+debug_mode: false
+
+testing:
+  log-gui-interactions: false
+  log-title-matching: false
+  log-performance-metrics: false
+
+# Database Settings
+database:
+  connection-string: "jdbc:mysql://customer_1099940_detrixmain:gcWHTN6vfG%405H%2B1Wn%3DPZg4%3D%40@na03-sql.pebblehost.com:3306/customer_1099940_detrixmain"

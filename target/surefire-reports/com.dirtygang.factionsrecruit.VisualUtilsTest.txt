@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.dirtygang.factionsrecruit.VisualUtilsTest
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s - in com.dirtygang.factionsrecruit.VisualUtilsTest

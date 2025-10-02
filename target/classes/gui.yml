@@ -1,0 +1,453 @@
+main-menu:
+  title: "&6Faction Recruitment Browser"
+  materials:
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    arrow: "ARROW"
+    manage-resume: "LECTERN"
+    manage-applications: "JUKEBOX"
+    help-and-commands: "BOOK"
+    close-button: "BARRIER"
+    search-button: "COMPASS"
+    browsing-players: "NETHERITE_SWORD"
+    browsing-factions: "YELLOW_BANNER"
+    filter-results: "HOPPER"
+  player-profile:
+    name: "&6%player_name%'s Profile"
+    lore:
+      visible: "&aCurrently visible to faction owners"
+      not-visible: "&7Not visible to faction owners"
+      toggle-visibility: "&7Click to toggle your visibility"
+  navigation:
+    previous-page: "&aPrevious Page"
+    next-page: "&aNext Page"
+  manage-resume:
+    name: "&6Manage Resume"
+    lore:
+      - "&7Edit your recruitment profile"
+      - "&7and skills information"
+  manage-applications:
+    name: "&6Manage Applications"
+    lore:
+      - "&7Set faction requirements"
+      - "&7and view applications"
+  help-and-commands:
+    name: "&6Help & Commands"
+    lore:
+      - "&7/recruit - Open browser"
+      - "&7/recruit <player> - View player resume"
+      - ""
+      - "&eClick items to interact!"
+  close-button:
+    name: "&cClose"
+  search-button:
+    name: "&6Search"
+    lore-players: "&7Search for player names"
+    lore-factions: "&7Search for faction names"
+  browsing-players:
+    name: "&6Browsing Players"
+    lore: "&7Shows player heads"
+  browsing-factions:
+    name: "&6Browsing Factions"
+    lore: "&7Shows faction banners"
+  filter-results:
+    name: "&6Filter Results"
+    lore:
+      - "&7Filter by timezone, experience,"
+      - "&7skills, and availability"
+  player-item:
+    name: "&b%player_name%"
+    lore:
+      - "&7Timezone: &f%timezone%"
+      - "&7Experience: &f%experience%"
+      - "&7Available Days: &f%availability%"
+      - "&7Skills: &f%skills%"
+  faction-item:
+    name: "&b%faction_name%"
+    lore:
+      - "&7Leader: &f%leader_name%"
+      - "&7Desired Timezones: &f%timezones%"
+      - "&7Desired Skills: &f%skills%"
+player-info:
+  title: "&6%player_name%'s Profile"
+  materials:
+    border-primary: "WHITE_STAINED_GLASS_PANE"
+    border-secondary: "PINK_STAINED_GLASS_PANE"
+    invite-button: "LECTERN"
+  invite-button:
+    name: "&aInvite to Faction"
+  resume:
+    timezone: "&7Timezone: &f%timezone%"
+    experience: "&7Experience: &f%experience%"
+    available-days: "&7Available Days: &f%days%"
+    skills: "&7Skills: &f%skills%"
+    looking-for-faction: "&7Looking for Faction: &f%status%"
+    status-yes: "Yes"
+    status-no: "No"
+    not-found: "&7No resume found for this player."
+resume-editor:
+  title: "&6Resume Editor"
+  resume-title: "&6%player_name%'s Resume"
+  materials:
+    visibility-toggle-on: "LIME_WOOL"
+    visibility-toggle-off: "RED_WOOL"
+    save-button: "LIME_WOOL"
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    section-timezone: "CLOCK"
+    section-experience: "EXPERIENCE_BOTTLE"
+    section-days: "DAYLIGHT_DETECTOR"
+    section-skills: "TNT_MINECART"
+    spacing: "BLACK_STAINED_GLASS_PANE"
+    item-unselected: "GRAY_CANDLE"
+    item-selected-days: "RED_CANDLE"
+  sections:
+    timezone:
+      name: "&6Primary Timezone"
+      lore: "&7Select your main timezone"
+    experience:
+      name: "&6Factions Experience"
+      lore: "&7How long have you played factions?"
+    available-days:
+      name: "&6Available Days"
+      lore: "&7When can you be online?"
+    skills:
+      name: "&6Your Skills"
+      lore: "&7What are you good at?"
+  save-button:
+    name: "&aSave & Continue"
+  toggle-visibility-button:
+    name: "&6Toggle Resume Visibility"
+    lore:
+      - "&7Current: %status%"
+      - "&7Click to change."
+  status:
+    hidden: "&cHidden"
+    visible: "&aVisible"
+  player-head:
+    lore:
+      - "&7Edit your personal recruitment profile."
+      - "&7Factions will see this when you apply!"
+  validation:
+    timezone: "Please select exactly one timezone."
+    experience: "Please select exactly one experience level."
+    days: "Please select at least one available day."
+    skills: "Please select between 1 and 3 skills."
+faction-application-editor:
+  title: "&6Faction Requirements Editor"
+  requirements-title: "&6%faction_name% Requirements"
+  materials:
+    central-display: "YELLOW_BANNER"
+    save-button: "GREEN_WOOL"
+    save-and-view-button: "BLUE_WOOL"
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    faction-head: "PLAYER_HEAD"
+    section-timezone: "CLOCK"
+    section-experience: "EXPERIENCE_BOTTLE"
+    section-days: "DAYLIGHT_DETECTOR"
+    section-skills: "TNT_MINECART"
+    spacing: "BLACK_STAINED_GLASS_PANE"
+    item-unselected: "GRAY_CANDLE"
+  faction-info:
+    faction: "&7Faction: &f%faction_name%"
+    leader: "&7Leader: &f%leader_name%"
+    members: "&7Members: &f%members%/%max_members%"
+    set-requirements: "&eSet your recruitment requirements below"
+  sections:
+    timezones:
+      name: "&6Desired Timezones"
+      lore: "&7Select desired timezones"
+    experience:
+      name: "&6Experience Levels"
+      lore: "&7Select desired experience levels"
+    days:
+      name: "&6Required Days"
+      lore: "&7Select required days"
+    skills:
+      name: "&6Desired Skills"
+      lore: "&7What are you good at?"
+  save-button:
+    name: "&aSave & Continue"
+  validation:
+    timezone: "Please select at least one desired timezone."
+    experience: "Please select at least one desired experience level."
+    days: "Please select at least one required day."
+    skills: "Please select at least one desired skill."
+  messages:
+    not-in-faction: "&cYou must be in a faction to manage application requirements."
+    not-leader: "&cOnly faction leaders can manage application requirements."
+    requirements-saved: "&aYour faction requirements have been saved!"
+    requirements-saved-viewing-applications: "&aYour faction requirements have been saved! Viewing applications..."
+  central-display:
+    lore:
+      - "&7Set your faction's recruitment criteria."
+      - "&7Players will see these when applying!"
+  save-and-view-button:
+    name: "&9Save & View Applications"
+    lore:
+      - "&7Save and proceed to view pending applications."
+
+faction-application-review:
+  title: "&6Applications to %faction_name%"
+  faction-banner-name: "&6%faction_name%"
+  player-head-name: "&b%player_name%"
+  lore:
+    status: "&7Status: &f%status%"
+    applied: "&7Applied: &f%date%"
+    expires: "&7Expires: &f%date%"
+
+selection-editor:
+  materials:
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    spacing: "BLACK_STAINED_GLASS_PANE"
+    section-header: "BOOK"
+    item-selected: "GREEN_CANDLE"
+    item-unselected: "GRAY_CANDLE"
+  category-icons:
+    timezone: "CLOCK"
+    experience: "EXPERIENCE_BOTTLE"
+    days: "DAYLIGHT_DETECTOR"
+    skills: "TNT_MINECART"
+  section-header: "&e&l%title%"
+  selection-item:
+    lore:
+      select: "&8Click to select"
+      deselect: "&8Click to deselect"
+      radio: "&8(Radio Button)"
+      checkbox: "&8(Checkbox)"
+  messages:
+    save-error: "&cPlease correct the errors before saving."
+    continue-success: "&aProceeding to next step!"
+    continue-error: "&cPlease correct the errors before continuing."
+    validation-error: "&cValidationError (%category%): %error%"
+  categories:
+    timezone: "Timezone"
+    experience: "Experience"
+    days: "Days"
+    skills: "Skills"
+  options:
+    timezones:
+      - "NA-WEST"
+      - "NA-EAST"
+      - "EU-WEST"
+      - "EU-CENTRAL"
+      - "ASIA"
+      - "OCEANIA"
+    experiences:
+      - "Under 6 months"
+      - "More than 1 year"
+      - "1-2 YEARS"
+      - "2-3 years"
+      - "3-4 years"
+      - "4-5 years"
+      - "5+ years"
+    days:
+      - "Monday"
+      - "Tuesday"
+      - "Wednesday"
+      - "Thursday"
+      - "Friday"
+      - "Saturday"
+      - "Sunday"
+    skills:
+      - "Cannoning"
+      - "PVP"
+      - "Base Defense"
+      - "Base Design"
+      - "Redstone"
+      - "Farming"
+      - "Fishing"
+  # Simple mapping from display names to database keys
+  database-keys:
+    "NA-WEST": "NA_WEST"
+    "NA-EAST": "NA_EAST"
+    "EU-WEST": "EU_WEST"
+    "EU-CENTRAL": "EU_CENTRAL"
+    "ASIA": "ASIA"
+    "OCEANIA": "OCEANIA"
+    "Under 6 months": "UNDER_6MO"
+    "More than 1 year": "1_YEAR"
+    "1-2 YEARS": "1_2_YEARS"
+    "2-3 years": "2_3_YEARS"
+    "3-4 years": "3_4_YEARS"
+    "4-5 years": "4_5_YEARS"
+    "5+ years": "5_PLUS_YEARS"
+    "Monday": "MON"
+    "Tuesday": "TUE"
+    "Wednesday": "WED"
+    "Thursday": "THU"
+    "Friday": "FRI"
+    "Saturday": "SAT"
+    "Sunday": "SUN"
+    "Cannoning": "CANNON"
+    "PVP": "PVP"
+    "Base Defense": "DEFENSE"
+    "Base Design": "DESIGN"
+    "Redstone": "REDSTONE"
+    "Farming": "FARM"
+    "Fishing": "FISH"
+
+invitation-confirmation:
+  title: "&6Send Invitation to %player_name%"
+  materials:
+    cancel-button: "RED_STAINED_GLASS_PANE"
+    send-button: "LIME_STAINED_GLASS_PANE"
+    center-border: "WHITE_STAINED_GLASS_PANE"
+    player-head: "PLAYER_HEAD"
+  cancel-button:
+    name: "&cCancel"
+  send-button:
+    name: "&aSend Invitation"
+  profile-title: "&6%player_name%'s Profile"
+  resume-title: "&6%player_name%'s Resume"
+application-confirmation:
+  title: "&6Apply to %faction_name%"
+  materials:
+    cancel-button: "RED_STAINED_GLASS_PANE"
+    submit-button: "LIME_STAINED_GLASS_PANE"
+    center-border: "WHITE_STAINED_GLASS_PANE"
+    faction-banner: "YELLOW_BANNER"
+  cancel-button:
+    name: "&cCancel"
+  submit-button:
+    name: "&aSubmit Application"
+  faction-title: "&6%faction_name%"
+  faction-info:
+    leader: "&7Leader: &f%leader_name%"
+    members: "&7Members: &f%members%/%max_members%"
+    recruiting: "&7Recruiting: &f%timezones%"
+    looking-for: "&7Looking for: &f%skills%"
+    applications-remaining: "&eApplications remaining: &f%remaining%/%total%"
+    application-expiry: "&7Application expires in %days% days"
+manage-application:
+  title: "&6%faction_name% Management"
+  materials:
+    border-primary: "WHITE_STAINED_GLASS_PANE"
+    border-secondary: "PINK_STAINED_GLASS_PANE"
+    edit-requirements: "LECTERN"
+    banner: "YELLOW_BANNER"
+    status-accepting: "EMERALD"
+    status-not-accepting: "REDSTONE"
+    view-pending: "BOOKSHELF"
+  edit-requirements: "&6Edit faction requirements"
+  faction-status:
+    accepting: "&aAccepting Applications"
+    not-accepting: "&cNot Accepting Applications"
+  view-pending: "&6View pending applications"
+manage-resume:
+  title: "&6Your Profile Management"
+  materials:
+    border-primary: "WHITE_STAINED_GLASS_PANE"
+    border-secondary: "PINK_STAINED_GLASS_PANE"
+    edit-resume: "LECTERN"
+    visibility-on: "EMERALD"
+    visibility-off: "REDSTONE"
+    view-pending: "BOOKSHELF"
+    player-head: PLAYER_HEAD
+  edit-resume: "&6Edit resume"
+  profile-title: "&6%player_name%'s Profile"
+  visibility:
+    visible: "&aVisible to faction owners"
+    hidden: "&7Hidden from faction owners"
+  view-pending: "&6View pending applications/invitations"
+pending-applications:
+  faction-owner-title: "&6Applications to %faction_name%"
+  player-title: "&6Your Applications"
+  materials:
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    faction-banner: "YELLOW_BANNER"
+    empty-slot: "BLACK_STAINED_GLASS_PANE"
+    back-button: "BARRIER"
+  application-item:
+    status: "&7Status: &f%status%"
+    applied: "&7Applied: &f%date%"
+    expires: "&7Expires: &f%date%"
+  empty-slot: "&7Empty Slot"
+  back-button: "&cBack"
+filter:
+  title: "&6Filter Results"
+  materials:
+    border-primary: "PINK_STAINED_GLASS_PANE"
+    border-secondary: "WHITE_STAINED_GLASS_PANE"
+    options-title: "PLAYER_HEAD"
+    section-timezone: "CLOCK"
+    section-experience: "EXPERIENCE_BOTTLE"
+    section-days: "DAYLIGHT_DETECTOR"
+    section-skills: "TNT_MINECART"
+    spacing: "BLACK_STAINED_GLASS_PANE"
+    item-selected: "GREEN_CANDLE"
+    item-unselected: "GRAY_CANDLE"
+    item-unselected-days: "RED_CANDLE"
+    reset-button: "BARRIER"
+    apply-button: "EMERALD"
+  options-title: "&6Filter Options"
+  sections:
+    timezone:
+      name: "&6Filter by Timezone"
+      lore: "&7Select desired timezones"
+    experience:
+      name: "&6Filter by Experience"
+      lore: "&7Select desired experience levels"
+    days:
+      name: "&6Filter by Available Days"
+      lore: "&7Select desired days"
+    skills:
+      name: "&6Filter by Skills"
+      lore: "&7Select desired skills"
+  reset-button: "&cReset Filters"
+  apply-button: "&aApply Filters"
+resume-confirmation:
+  title: "Confirm Resume Changes"
+  message: "Review your new resume details."
+  save-success: "Your resume has been saved."
+  save-cancelled: "Resume save cancelled."
+
+confirmation-gui:
+  title: "&6Confirmation"
+  message:
+    name: "&eAre you sure?"
+    lore:
+      - "&7%message%"
+  confirm:
+    name: "&aConfirm"
+    lore:
+      - "&7Click to confirm"
+  cancel:
+    name: "&cCancel"
+    lore:
+      - "&7Click to cancel"
+  save-resume:
+    message: "Do you want to save your resume changes?"
+  new-resume-title: "&6%player_name%'s New Resume"
+  resume-lore:
+    timezone: "&7Timezone: &f%timezone%"
+    experience: "&7Experience: &f%experience%"
+    available-days: "&7Available Days: &f%days%"
+    skills: "&7Skills: &f%skills%"
+    looking-for-faction: "&7Looking for Faction: &f%status%"
+    visibility: "&7Visibility: &f%status%"
+    status-yes: "Yes"
+    status-no: "No"
+    status-hidden: "Hidden"
+    status-visible: "Visible"
+
+faction-application-confirmation:
+  title: "&6Confirm Faction Application Changes"
+  cancel-button: "&cCancel Changes"
+  confirm-button: "&aConfirm & Save"
+help:
+  title: "&6Help & Commands"
+  materials:
+    border-primary: "WHITE_STAINED_GLASS_PANE"
+    border-secondary: "PINK_STAINED_GLASS_PANE"
+    help-book: "WRITTEN_BOOK"
+    back-button: "ARROW"
+  lore:
+    - "&7/recruit - Open browser"
+    - "&7/recruit <player> - View player resume"
+    - ""
+    - "&eClick items to interact!"
+  back-button: "&aGo Back"

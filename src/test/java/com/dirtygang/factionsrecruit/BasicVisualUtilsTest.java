@@ -1,6 +1,9 @@
 package com.dirtygang.factionsrecruit;
 
 import org.junit.jupiter.api.Test;
+
+import com.gnut.factionsrecruit.VisualUtils;
+
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 

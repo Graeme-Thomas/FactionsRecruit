@@ -2,6 +2,12 @@ package com.dirtygang.factionsrecruit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.gnut.factionsrecruit.FactionsRecruit;
+import com.gnut.factionsrecruit.PlayerListener;
+import com.gnut.factionsrecruit.RecruitGUI;
+import com.gnut.factionsrecruit.VisualUtils;
+
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 

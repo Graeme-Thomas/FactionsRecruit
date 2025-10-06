@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.dirtygang.factionsrecruit.PlayerListenerTest
 -------------------------------------------------------------------------------
-Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.798 s - in com.dirtygang.factionsrecruit.PlayerListenerTest
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.118 s - in com.dirtygang.factionsrecruit.PlayerListenerTest

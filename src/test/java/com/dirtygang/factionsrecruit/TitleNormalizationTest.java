@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import com.gnut.factionsrecruit.FactionsRecruit;
 import com.gnut.factionsrecruit.PlayerListener;
-import com.gnut.factionsrecruit.RecruitGUI;
-import com.gnut.factionsrecruit.VisualUtils;
+import com.gnut.factionsrecruit.interfaces.RecruitGUI;
+import com.gnut.factionsrecruit.util.VisualUtils;
 
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;

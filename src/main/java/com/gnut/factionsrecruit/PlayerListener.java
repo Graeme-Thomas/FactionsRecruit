@@ -11,21 +11,23 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.gnut.factionsrecruit.SelectionEditorTemplate;
+import com.gnut.factionsrecruit.interfaces.ConfirmationGUI;
+import com.gnut.factionsrecruit.interfaces.RecruitGUI;
+import com.gnut.factionsrecruit.interfaces.SelectionEditorTemplate;
+import com.gnut.factionsrecruit.model.FactionApplication;
+import com.gnut.factionsrecruit.model.PlayerApplication;
+import com.gnut.factionsrecruit.model.PlayerResume;
+import com.gnut.factionsrecruit.util.VisualUtils;
 
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import java.util.Collections;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import me.clip.placeholderapi.libs.kyori.adventure.platform.viaversion.ViaFacet.Chat;
 
 public class PlayerListener implements Listener {
 

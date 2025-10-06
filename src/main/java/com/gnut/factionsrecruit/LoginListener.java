@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import com.gnut.factionsrecruit.model.LoginNotification;
+
 public class LoginListener implements Listener {
 
     private final FactionsRecruit plugin;

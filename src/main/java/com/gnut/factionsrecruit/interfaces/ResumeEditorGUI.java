@@ -127,30 +127,53 @@ public class ResumeEditorGUI {
                     String selectedTimezone = selections.get(Category.TIMEZONE).stream().findFirst().orElse(null);
                     String selectedExperience = selections.get(Category.EXPERIENCE).stream().findFirst().orElse(null);
 
+                    // Validate that required fields are selected
+                    if (selectedTimezone == null) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Please select a timezone.");
+                        return;
+                    }
+
+                    if (selectedExperience == null) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Please select an experience level.");
+                        return;
+                    }
+
+                    if (selections.get(Category.DAYS).isEmpty()) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Please select at least one available day.");
+                        return;
+                    }
+
+                    if (selections.get(Category.SKILLS).isEmpty() || selections.get(Category.SKILLS).size() > 3) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Please select between 1 and 3 skills.");
+                        return;
+                    }
+
                     // Convert and validate timezone
-                    String timezoneDbKey = null;
-                    if (selectedTimezone != null) {
-                        timezoneDbKey = plugin.getConfigManager().getDatabaseKey(selectedTimezone);
-                        if (timezoneDbKey == null || !plugin.getConfigManager().isValidDatabaseKey(timezoneDbKey, "timezone")) {
-                            player.sendMessage(plugin.getConfigManager().getPrefix() +
-                                net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
-                                VisualUtils.Symbols.CROSS + " Invalid timezone selection: " + selectedTimezone);
-                            plugin.getLogger().severe("Database key conversion failed for timezone: " + selectedTimezone + " -> " + timezoneDbKey);
-                            return;
-                        }
+                    String timezoneDbKey = plugin.getConfigManager().getDatabaseKey(selectedTimezone);
+                    if (timezoneDbKey == null || !plugin.getConfigManager().isValidDatabaseKey(timezoneDbKey, "timezone")) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Invalid timezone selection: " + selectedTimezone);
+                        plugin.getLogger().severe("Database key conversion failed for timezone: " + selectedTimezone + " -> " + timezoneDbKey);
+                        return;
                     }
 
                     // Convert and validate experience
-                    String experienceDbKey = null;
-                    if (selectedExperience != null) {
-                        experienceDbKey = plugin.getConfigManager().getDatabaseKey(selectedExperience);
-                        if (experienceDbKey == null || !plugin.getConfigManager().isValidDatabaseKey(experienceDbKey, "experience")) {
-                            player.sendMessage(plugin.getConfigManager().getPrefix() +
-                                net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
-                                VisualUtils.Symbols.CROSS + " Invalid experience selection: " + selectedExperience);
-                            plugin.getLogger().severe("Database key conversion failed for experience: " + selectedExperience + " -> " + experienceDbKey);
-                            return;
-                        }
+                    String experienceDbKey = plugin.getConfigManager().getDatabaseKey(selectedExperience);
+                    if (experienceDbKey == null || !plugin.getConfigManager().isValidDatabaseKey(experienceDbKey, "experience")) {
+                        player.sendMessage(plugin.getConfigManager().getPrefix() +
+                            net.md_5.bungee.api.ChatColor.of(VisualUtils.ColorPalette.ERROR) +
+                            VisualUtils.Symbols.CROSS + " Invalid experience selection: " + selectedExperience);
+                        plugin.getLogger().severe("Database key conversion failed for experience: " + selectedExperience + " -> " + experienceDbKey);
+                        return;
                     }
 
                     resumeToUpdate.setTimezone(timezoneDbKey);

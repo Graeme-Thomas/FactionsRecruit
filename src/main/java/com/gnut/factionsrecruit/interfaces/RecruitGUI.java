@@ -20,6 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
+/*Slot Layout (0-53):
+Row 1: [0:PINK]         [1:WHITE]    [2:PINK]          [3:WHITE]  [4:PLAYER_HEAD] [5:WHITE]    [6:PINK]          [7:WHITE]   [8:PINK]
+Row 2: [9:WHITE]        [10:EMPTY]   [11:EMPTY]        [12:EMPTY] [13:EMPTY]      [14:EMPTY]   [15:EMPTY]        [16:EMPTY]  [17:WHITE]
+Row 3: [18:PINK]        [19:EMPTY]   [20:EMPTY]        [21:EMPTY] [22:EMPTY]      [23:EMPTY]   [24:EMPTY]        [25:EMPTY]  [26:WHITE]
+Row 4: [27:WHITE]       [28:EMPTY]   [29:EMPTY]        [30:EMPTY] [31:EMPTY]      [32:EMPTY]   [33:EMPTY]        [34:EMPTY]  [35:WHITE]
+Row 5: [36:PINK]        [37:EMPTY]   [38:EMPTY]        [39:EMPTY] [40:EMPTY]      [41:EMPTY]   [42:EMPTY]        [43:EMPTY]  [44:WHITE]
+Row 6: [45:ARROW/WHITE] [46:LECTERN] [47:JUKEBOX/PINK] [48:BOOK]  [49:BARRIER]    [50:COMPASS] [51:SWORD/BANNER] [52:HOPPER] [53:ARROW/WHITE] */
 public class RecruitGUI {
 
     private final FactionsRecruit plugin;

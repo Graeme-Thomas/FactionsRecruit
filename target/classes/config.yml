@@ -86,7 +86,7 @@ resume-editor-gui:
 debug_mode: false
 
 testing:
-  log-gui-interactions: false
+  log-gui-interactions: true
   log-title-matching: false
   log-performance-metrics: false
 

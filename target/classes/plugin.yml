@@ -1,4 +1,4 @@
-main: com.dirtygang.factionsrecruit.FactionsRecruit
+main: com.gnut.factionsrecruit.FactionsRecruit
 name: FactionsRecruit
 version: '1.0-SNAPSHOT'
 api-version: 1.19

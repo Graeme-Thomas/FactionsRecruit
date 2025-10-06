@@ -70,6 +70,7 @@ public class FactionsRecruit extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         instance = this;
         getLogger().info("Initializing ConfigManager...");
         configManager = new ConfigManager(this);

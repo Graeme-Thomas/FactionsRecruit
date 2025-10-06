@@ -93,12 +93,44 @@ public class PlayerListener implements Listener {
         if (event.getInventory().getHolder() instanceof SelectionEditorTemplate) {
             return;
         }
+
+        // Only handle clicks in the top inventory (the GUI), not player inventory
+        if (event.getClickedInventory() == null || event.getClickedInventory().equals(event.getView().getBottomInventory())) {
+            // Player clicked their own inventory - allow if not a custom GUI
+            String inventoryTitle = event.getView().getTitle();
+            String normalizedTitle = normalizeServerTitle(inventoryTitle);
+
+            // If they have a custom GUI open, cancel all clicks including bottom inventory
+            if (normalizedTitle.contains("RECRUITMENT BROWSER") ||
+                normalizedTitle.contains("PROFILE") ||
+                normalizedTitle.equals("RESUME EDITOR") ||
+                normalizedTitle.equals("REQUIREMENTS EDITOR") ||
+                normalizedTitle.contains("PROFILE MANAGER") ||
+                normalizedTitle.contains("PENDING APPLICATIONS") ||
+                normalizedTitle.equals("YOUR APPLICATIONS") ||
+                normalizedTitle.equals("YOUR INVITATIONS") ||
+                normalizedTitle.equals("FILTER RESULTS") ||
+                normalizedTitle.contains("FACTION MANAGER") ||
+                normalizedTitle.contains("HELP") ||
+                plugin.getGuiManager().hasActiveGUI(((Player) event.getWhoClicked()).getUniqueId())) {
+                event.setCancelled(true);
+            }
+            return;
+        }
+
         String inventoryTitle = event.getView().getTitle();
         String strippedTitle = stripColors(inventoryTitle);
         String normalizedTitle = normalizeServerTitle(inventoryTitle);
         Player player = (Player) event.getWhoClicked();
         ItemStack clickedItem = event.getCurrentItem();
         int clickedSlot = event.getSlot();
+
+        // Log for debugging
+        if (plugin.getConfigManager().isDebugLoggingEnabled()) {
+            plugin.getLogger().info("[DEBUG] GUI Click - Title: '" + inventoryTitle + "'");
+            plugin.getLogger().info("[DEBUG] GUI Click - Normalized: '" + normalizedTitle + "'");
+            plugin.getLogger().info("[DEBUG] GUI Click - Slot: " + clickedSlot);
+        }
 
         if (clickedItem == null || clickedItem.getType() == Material.AIR) {
             return;
